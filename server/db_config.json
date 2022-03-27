@@ -1,6 +1,6 @@
 {
     "db": {
-            "url" : "cluster0-shard-00-02.bh9dm.mongodb.net:27017",
+            "url" : "mongodb+srv://Ailasoi:taolasoi@cluster0.bh9dm.mongodb.net/TTNT?retryWrites=true&w=majority",
             "name" :"TTNT",
             "user" :"",
             "password" :""

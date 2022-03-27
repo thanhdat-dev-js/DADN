@@ -1,4 +1,5 @@
 from datetime import datetime
+# from django import conf
 from pymongo import MongoClient
 from bson import ObjectId
 
@@ -7,7 +8,7 @@ from config import config
 
 class Database(object):
     def __init__(self):
-        self.client = MongoClient(config['db']['url'])  # configure db url
+        # self.client = MongoClient(config['db']['url'])  # configure db url
         try:
             self.client = MongoClient(
                     config['db']['url']
@@ -17,9 +18,9 @@ class Database(object):
             )
             # db = mongo.company
             self.db = self.client[config['db']['name']]  # configure db name
-            self.db.server_info() # trigger exception
-        except:
-            print("ERROR - Cannot connect to db")
+            self.client.server_info() # trigger exception
+        except Exception as ex:
+            print("ERROR - Cannot connect to db because of: " + str(ex))
 
     def insert(self, element, collection_name):
         element["created"] = datetime.now()
