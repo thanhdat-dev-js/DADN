@@ -1,7 +1,7 @@
 {
     "db": {
-            "url" : "mongodb://localhost:27017/",
-            "name" :"SmartHouse",
+            "url" : "cluster0-shard-00-02.bh9dm.mongodb.net:27017",
+            "name" :"TTNT",
             "user" :"",
             "password" :""
     }

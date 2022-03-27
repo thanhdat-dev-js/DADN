@@ -8,7 +8,18 @@ from config import config
 class Database(object):
     def __init__(self):
         self.client = MongoClient(config['db']['url'])  # configure db url
-        self.db = self.client[config['db']['name']]  # configure db name
+        try:
+            self.client = MongoClient(
+                    config['db']['url']
+                    # host="localhost",
+                    # port=27017,
+                    # serverSelectionTimeoutMS = 1000
+            )
+            # db = mongo.company
+            self.db = self.client[config['db']['name']]  # configure db name
+            self.db.server_info() # trigger exception
+        except:
+            print("ERROR - Cannot connect to db")
 
     def insert(self, element, collection_name):
         element["created"] = datetime.now()

@@ -1,9 +1,8 @@
-from urllib import response
 from flask.views import MethodView
 from flask import request, jsonify
-from models.user import user  # call model file
+from models.user import userModel  # call model file
 # from bson.objectid import ObjectId # Allow using ObjectId
-user = user()
+user = userModel()
 class UserAPI(MethodView):
     def get(self):
         
