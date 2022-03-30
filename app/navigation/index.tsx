@@ -4,6 +4,7 @@
  *
  */
 import { FontAwesome } from "@expo/vector-icons";
+import { MaterialIcons, Ionicons } from "@expo/vector-icons";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   NavigationContainer,
@@ -20,6 +21,9 @@ import ModalScreen from "../screens/ModalScreen";
 import NotFoundScreen from "../screens/NotFoundScreen";
 import TabOneScreen from "../screens/TabOneScreen";
 import TabTwoScreen from "../screens/TabTwoScreen";
+import TabThreeScreen from "../screens/TabThreeScreen";
+import TabFourScreen from "../screens/TabFourScreen";
+
 import {
   RootStackParamList,
   RootTabParamList,
@@ -82,59 +86,62 @@ function BottomTabNavigator() {
       initialRouteName="TabOne"
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        headerShown: false,
       }}
     >
       <BottomTab.Screen
         name="TabOne"
         component={TabOneScreen}
         options={({ navigation }: RootTabScreenProps<"TabOne">) => ({
-          title: "Tab One",
+          title: "Trang chủ",
           tabBarIcon: ({ color }) => (
-            <FontAwesome
-              name="home"
-              size={25}
-              color={Colors[colorScheme].text}
-            />
+            <FontAwesome name="home" size={25} color={color} />
           ),
-          headerRight: () => (
-            <Pressable
-              onPress={() => navigation.navigate("Modal")}
-              style={({ pressed }) => ({
-                opacity: pressed ? 0.5 : 1,
-              })}
-            >
-              <FontAwesome
-                name="info-circle"
-                size={25}
-                color={Colors[colorScheme].text}
-                style={{ marginRight: 15 }}
-              />
-            </Pressable>
-          ),
+          // headerRight: () => (
+          //   <Pressable
+          //     onPress={() => navigation.navigate("Modal")}
+          //     style={({ pressed }) => ({
+          //       opacity: pressed ? 0.5 : 1,
+          //     })}
+          //   >
+          //     <FontAwesome
+          //       name="info-circle"
+          //       size={25}
+          //       color={Colors[colorScheme].text}
+          //       style={{ marginRight: 15 }}
+          //     />
+          //   </Pressable>
+          // ),
         })}
       />
       <BottomTab.Screen
         name="TabTwo"
         component={TabTwoScreen}
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Thiết bị",
+          tabBarIcon: ({ color }) => (
+            <MaterialIcons name="devices-other" size={24} color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
-        name="t3"
-        component={TabTwoScreen}
+        name="TabThree"
+        component={TabThreeScreen}
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Thống kê",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="stats-chart" size={24} color={color} />
+          ),
         }}
       />
       <BottomTab.Screen
-        name="t4"
-        component={TabTwoScreen}
+        name="TabFour"
+        component={TabFourScreen}
         options={{
-          title: "Tab Two",
-          tabBarIcon: ({ color }) => <TabBarIcon name="code" color={color} />,
+          title: "Thông báo",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="notifications" size={24} color={color} />
+          ),
         }}
       />
     </BottomTab.Navigator>
