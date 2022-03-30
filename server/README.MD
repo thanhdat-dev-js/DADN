@@ -28,7 +28,7 @@
 
 - Run
 ```
-    pip install -r requirement.txt
+    pip install -r requirements.txt
 ```
 
 - Cuối cùng chạy lệnh:
