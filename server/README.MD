@@ -22,7 +22,7 @@
 
 - Run
 ```
-    venv\Script\active
+    .\venv\Scripts\activate
 ```
 để vào virtual env vừa tạo
 
