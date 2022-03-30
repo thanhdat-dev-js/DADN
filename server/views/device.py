@@ -7,7 +7,7 @@ class deviceAPI(MethodView):
     def get(self):
         device_id = request.args.get('device_id')
         if device_id == None:
-            return "device"
+            # return "device"
             return jsonify(device.find({})), 200
         # return "device" + str((device_id))
         # return "find device" + str(device_id)
