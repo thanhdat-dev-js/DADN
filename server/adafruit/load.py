@@ -27,7 +27,7 @@ class db:
     def __init__(self):
         
         self.__READ_TIMEOUT = 10
-        self.__ADAFRUIT_IO_KEY = 'aio_XnPG278z51IYZplAYAoIfPFJF8SE'
+        self.__ADAFRUIT_IO_KEY = 'aio_oSDH8479eBum3YrtwHZQackKYvGZ'
         self.__ADAFRUIT_IO_USERNAME = 'Ailasoi'
         self.__aio = Client(self.__ADAFRUIT_IO_USERNAME, self.__ADAFRUIT_IO_KEY)
         self.__temperature_feed = self.__aio.feeds('heat-sensor')
