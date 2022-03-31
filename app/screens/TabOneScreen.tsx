@@ -1,14 +1,40 @@
 import { StyleSheet, Image, Switch, FlatList } from "react-native";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
+import { API } from "../api";
 export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
   const [isEnabled, setIsEnabled] = useState(false);
+  const [isEnabled1, setIsEnabled1] = useState(false);
+  const [data, setData] = useState<any>(undefined);
+  const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+  useEffect(() => {
+    const unsub = setInterval(async () => {
+      try {
+        await API.get("/devices").then(async (res) => {
+          console.log(res.data);
+          await setData(res.data);
+          res.data.map((item: any) => {
+            if (item.name === "Light") {
+              setIsEnabled(item.feed == "1" ? true : false);
+            } else if (item.name === "Fan") {
+              setIsEnabled1(item.feed == "1" ? true : false);
+            }
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(unsub);
+    };
+  }, []);
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
@@ -74,6 +100,7 @@ export default function TabOneScreen({
               trackColor={{ false: "#767577", true: "#81b0ff" }}
               thumbColor={isEnabled ? "#E5E5E5" : "#f4f3f4"}
               onValueChange={toggleSwitch}
+              disabled
               value={isEnabled}
               style={{ backgroundColor: "#fff" }}
             />
@@ -108,9 +135,10 @@ export default function TabOneScreen({
             <Image source={require("../assets/images/fan.png")} />
             <Switch
               trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isEnabled ? "#E5E5E5" : "#f4f3f4"}
-              onValueChange={toggleSwitch}
-              value={isEnabled}
+              thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
+              onValueChange={toggleSwitch1}
+              disabled
+              value={isEnabled1}
               style={{ backgroundColor: "#fff" }}
             />
           </View>
@@ -146,7 +174,7 @@ export default function TabOneScreen({
               paddingLeft: 20,
             }}
           >
-            Danh sách người dùng
+            Danh sách người dùng hai
           </Text>
         </View>
         <FlatList
