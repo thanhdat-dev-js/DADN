@@ -17,4 +17,4 @@ app.add_url_rule('/users', view_func=user_view, methods=['POST',])
 app.add_url_rule('/devices', view_func=device_view, methods=['GET',])
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=8000, debug=True)

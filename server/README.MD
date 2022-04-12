@@ -22,13 +22,13 @@
 
 - Run
 ```
-    venv\Script\active
+    .\venv\Scripts\activate (Đối với window)
 ```
 để vào virtual env vừa tạo
 
 - Run
 ```
-    pip install -r requirement.txt
+    pip install -r requirements.txt
 ```
 
 - Cuối cùng chạy lệnh:
