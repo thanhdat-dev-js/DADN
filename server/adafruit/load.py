@@ -10,10 +10,11 @@ from pymongo import MongoClient
 
 #import datetime
 from datetime import datetime
-
+import sys
 
 # import Adafruit IO REST client.
-from Adafruit_IO import Client, Feed
+from Adafruit_IO import MQTTClient, Client, Feed
+
 
 #connect mongodb
 uri = "mongodb+srv://Ailasoi:taolasoi@cluster0.bh9dm.mongodb.net/TTNT?retryWrites=true&w=majority"
@@ -22,82 +23,72 @@ device_collection = connection["TTNT"]["device"]
 history_collection = connection["TTNT"]["history"]
 
 
+AIO_FEED_ID = ["heat-sensor", "light-sensor", "humidity-sensor", "fan-1", "light-1"]
 
-class db:
-    def __init__(self):
-        
-        self.__READ_TIMEOUT = 10
-        self.__ADAFRUIT_IO_KEY = 'aio_WEcd27gk7UJYd7IANkWs4AESAGkR'
-        self.__ADAFRUIT_IO_USERNAME = 'Ailasoi'
-        self.__aio = Client(self.__ADAFRUIT_IO_USERNAME, self.__ADAFRUIT_IO_KEY)
-        self.__temperature_feed = self.__aio.feeds('heat-sensor')
-        self.__light_sensor_feed = self.__aio.feeds('light-sensor')
-        self.__humidity_feed = self.__aio.feeds('humidity-sensor')
-        self.__fan_feed = self.__aio.feeds('fan-1')
-        self.__light_feed = self.__aio.feeds('light-1')
-        ####
-        self.__temp_value = self.__aio.receive(self.__temperature_feed.key).value
-        self.__humid_value = self.__aio.receive(self.__humidity_feed.key).value
-        self.__fan_value = self.__aio.receive(self.__fan_feed.key).value
-        self.__light_value = self.__aio.receive(self.__light_feed.key).value
-        self.__light_sensor_value = self.__aio.receive(self.__light_sensor_feed.key).value
-        self._lock = threading.Lock()
 
-    def interval(self):
-        # Kiểm tra dữ liệu liên tục
-        while True:
-            print("Current")
-            self.__temp_value = self.__aio.receive(self.__temperature_feed.key).value
-            self.__light_sensor_value = self.__aio.receive(self.__light_sensor_feed.key).value
-            self.__humid_value = self.__aio.receive(self.__humidity_feed.key).value
-            self.__fan_value = self.__aio.receive(self.__fan_feed.key).value
-            self.__light_value = self.__aio.receive(self.__light_feed.key).value
-            print (self.__temp_value)
-            print (self.__light_sensor_value)
-            print (self.__humid_value)
-            print (self.__fan_value)
-            print (self.__light_value)
-            # Đưa dữ liệu lên MongoDB
-            now = datetime.now()
-            data = {"time": now , "Light" : self.__light_value, "Fan" : self.__fan_value, "temp" : self.__temp_value, "humid" : self.__humid_value, "light_sensor" : self.__light_sensor_value}
-            history_collection.insert_one(data)
-            
-            #update
-            now1 = datetime.now()
-            device_collection.update_many({"name":"Light"}, {"$set": {"feed" : self.__light_value , "time" : now1}})
-            device_collection.update_many({"name":"Fan"}, {"$set": {"feed" : self.__fan_value , "time" : now1}})
-            device_collection.update_many({"name":"light_sensor"}, {"$set": {"feed" : self.__light_sensor_value , "time" : now1}})
-            device_collection.update_many({"name":"temp"}, {"$set": {"feed" : self.__temp_value , "time" : now1}})
-            device_collection.update_many({"name":"humid"}, {"$set": {"feed" : self.__humid_value , "time" : now1}})
-            
-            
-            time.sleep(self.__READ_TIMEOUT)
+AIO_USERNAME = "Ailasoi"
+AIO_KEY = "aio_WEcd27gk7UJYd7IANkWs4AESAGkR"
 
-    def statusChanged(self):
-        # Khi có thay đổi
-        while True:
-            new_fan = self.__aio.receive(self.__fan_feed.key).value
-            new_light = self.__aio.receive(self.__light_feed.key).value
-            new_light_sensor = self.__aio.receive(self.__light_sensor_feed.key).value
-            new_humid = self.__aio.receive(self.__humidity_feed.key).value
-            new_temp = self.__aio.receive(self.__temperature_feed.key).value
-            if new_fan != self.__fan_value or new_light != self.__light_value or new_light_sensor != self.__light_sensor_value or new_humid != self.__humid_value or new_temp != self.__tempe_value:
-                print("Changed in status")
-                print(new_fan, new_light)
-                self.__fan_value = new_fan
-                self.__light_value = new_light
-                self.__humid_value = new_humid
-                self.__temp_value = new_temp
-                self.__light_sensor_value = new_light_sensor
-                now = datetime.now()
-                device_collection.update_many({"name":"Light"}, {"$set": {"feed" : self.__light_value , "time" : now}})
-                device_collection.update_many({"name":"Fan"}, {"$set": {"feed" : self.__fan_value , "time" : now}})
-                device_collection.update_many({"name":"light_sensor"}, {"$set": {"feed" : self.__light_sensor_value , "time" : now}})
-                device_collection.update_many({"name":"temp"}, {"$set": {"feed" : self.__temp_value , "time" : now}})
-                device_collection.update_many({"name":"humid"}, {"$set": {"feed" : self.__humid_value , "time" : now}})
-                # Đưa dữ liệu lên MongoDB
 
-database = db()
-with concurrent.futures.ThreadPoolExecutor(max_workers=2) as executor:
-    executor.submit(database.interval)
-    executor.submit(database.statusChanged)
+def connected(client):
+    print("Connected successfully ...")
+    for feed in AIO_FEED_ID:
+        client.subscribe(feed)
+
+def subscribe(client, userdata, mid, granted_qos):
+    print("Subscribed successfully ...")
+
+
+def disconnected(client):
+    print("Disconnect ...")
+    sys.exit(1)
+
+
+__aio = Client(AIO_USERNAME, AIO_KEY)
+
+
+
+def message(client, feed_id, payload):
+    print(feed_id)
+    now = datetime.now()
+    if feed_id == "heat-sensor":
+        ###temp_payload = __aio.receive((__aio.feeds('heat-sensor')).key).value
+        device_collection.update_many({"name":"temp"}, {"$set": {"feed" : payload , "time" : now}})
+        print("Updated " + payload + " to" + " temp")
+    if feed_id == "light-sensor":
+        ###light_sensor_payload = __aio.receive((__aio.feeds('light-sensor')).key).value
+        device_collection.update_many({"name":"light_sensor"}, {"$set": {"feed" : payload , "time" : now}})
+        print("Updated " + payload + " to" + " light_sensor")
+    if feed_id == "humidity-sensor":
+        ###humid_payload = __aio.receive((__aio.feeds('humidity-sensor')).key).value
+        device_collection.update_many({"name":"humid"}, {"$set": {"feed" : payload , "time" : now}})
+        print("Updated " + payload + " to" + " humid")
+    if feed_id == "fan-1":
+        ###Fan_payload = __aio.receive((__aio.feeds('fan-1')).key).value
+        device_collection.update_many({"name":"Fan"}, {"$set": {"feed" : payload , "time" : now}})
+        print("Updated " + payload + " to" + " Fan")
+    if feed_id == "light-1":
+        ###Light_payload = __aio.receive((__aio.feeds('light-1')).key).value
+        device_collection.update_many({"name":"Light"}, {"$set": {"feed" : payload , "time" : now}})
+        print("Updated " + payload + " to" + " Light")
+
+
+client = MQTTClient(AIO_USERNAME, AIO_KEY)
+client.on_connect = connected
+client.on_disconnect = disconnected
+client.on_message = message
+client.on_subscribe = subscribe
+client.connect()
+client.loop_background()
+
+
+while True:
+    temp_payload = __aio.receive((__aio.feeds('heat-sensor')).key).value
+    light_sensor_payload = __aio.receive((__aio.feeds('light-sensor')).key).value
+    humid_payload = __aio.receive((__aio.feeds('humidity-sensor')).key).value
+    Fan_payload = __aio.receive((__aio.feeds('fan-1')).key).value
+    Light_payload = __aio.receive((__aio.feeds('light-1')).key).value
+    now1 = datetime.now()
+    data = {"time": now1 , "Light" : Light_payload, "Fan" : Fan_payload, "temp" : temp_payload, "humid" : humid_payload, "light_sensor" : light_sensor_payload}
+    history_collection.insert_one(data)
+    time.sleep(10)
