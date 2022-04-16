@@ -3,11 +3,11 @@ from flask import request, jsonify
 from bson import ObjectId
 from models.deviceModel import deviceModel  # call model file
 # from bson.objectid import ObjectId # Allow using ObjectId
-from factory.adafruit import ADA
+# from factory.adafruit import ADA
 
 
 devices = deviceModel()
-ada = ADA()
+ada = 'ADA()'
 class deviceAPI(MethodView):
     def get(self):
         device_id = request.args.get('device_id')
