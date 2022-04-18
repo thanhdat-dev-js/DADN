@@ -1,4 +1,4 @@
-import { StyleSheet, Image, Switch, FlatList } from "react-native";
+import { StyleSheet, Image, Switch, FlatList, ScrollView } from "react-native";
 import { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -13,26 +13,34 @@ export default function TabOneScreen({
 }: RootTabScreenProps<"TabOne">) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isEnabled1, setIsEnabled1] = useState(false);
+  const [isEnabled2, setIsEnable2] = useState(false);
+  const [isEnabled3, setIsEnable3] = useState(false);
   const [temp, setTemp] = useState(0);
   const [humid, setHumid] = useState(0);
   const [lightsensor, setLightsensor] = useState(0);
+  const toggleSwitch3 = () => setIsEnabled1((previousState) => !previousState);
+  const toggleSwitch2 = () => setIsEnabled1((previousState) => !previousState);
   const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
   useEffect(() => {
     const unsub = setInterval(async () => {
       try {
         await API.get("/devices").then(async (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           res.data.map((item: any) => {
-            if (item.name === "Light") {
+            if (item.name === "Light_1") {
               setIsEnabled(item.feed == "1" ? true : false);
-            } else if (item.name === "Fan") {
+            } else if (item.name === "Fan_1") {
               setIsEnabled1(item.feed == "1" ? true : false);
+            } else if (item.name === "Light_2") {
+              setIsEnable2(item.feed == "1" ? true : false);
+            } else if (item.name === "Fan_2") {
+              setIsEnable3(item.feed == "1" ? true : false);
             } else if (item.name === "temp") {
               setTemp(item.feed);
             } else if (item.name === "humid") {
               setHumid(item.feed);
-            } else if (item.name === "lightsensor") {
+            } else if (item.name === "light_sensor") {
               setLightsensor(item.feed);
             }
           });
@@ -46,319 +54,370 @@ export default function TabOneScreen({
     };
   }, []);
   return (
-    <View style={styles.container}>
-      {/* <View style={styles.heading}>
-        <FontAwesome name="microphone" size={24} color="black" />
-        <Text
-          style={{
-            paddingLeft: 10,
-            fontSize: 30,
-            fontWeight: "bold",
-          }}
-        >
-          Hi, Sói
-        </Text>
-        <Image
-          source={require("../assets/images/soi.png")}
-          style={{ marginLeft: 20 }}
-        />
-        <View
-          style={{
-            flexGrow: 1,
-            alignItems: "flex-end",
-            justifyContent: "center",
-          }}
-        >
-          <FontAwesome name="sign-out" size={24} color="black" />
-        </View>
-      </View> */}
-      <View></View>
-      <View style={{ flexDirection: "row" }}>
-        <View
-          style={{
-            flexGrow: 1,
-            padding: 20,
-            borderRadius: 10,
-            backgroundColor: "#fff",
-            marginRight: 20,
-            marginTop: 20,
-            paddingTop: 0,
-          }}
-        >
+    <ScrollView>
+      <View style={styles.container}>
+        <View></View>
+        <View style={{ flexDirection: "row" }}>
           <View
             style={{
-              flexDirection: "row",
+              flexGrow: 1,
+              padding: 20,
+              borderRadius: 10,
               backgroundColor: "#fff",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingVertical: 20,
-              paddingHorizontal: 10,
+              marginRight: 20,
+              marginTop: 20,
+              paddingTop: 0,
             }}
           >
-            <Image source={require("../assets/images/led.png")} />
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isEnabled ? "#E5E5E5" : "#f4f3f4"}
-              onValueChange={toggleSwitch}
-              disabled
-              value={isEnabled}
-              style={{ backgroundColor: "#fff" }}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                backgroundColor: "#fff",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+              }}
+            >
+              <Image source={require("../assets/images/led.png")} />
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch}
+                disabled
+                value={isEnabled}
+                style={{ backgroundColor: "#fff" }}
+              />
+            </View>
+            <Text
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            >
+              Bóng đèn 1
+            </Text>
           </View>
-          <Text
-            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
-          >
-            Bóng đèn
-          </Text>
-        </View>
-        <View
-          style={{
-            flexGrow: 1,
-            padding: 20,
-            borderRadius: 10,
-            backgroundColor: "#fff",
-            marginTop: 20,
-            paddingTop: 0,
-          }}
-        >
           <View
             style={{
-              flexDirection: "row",
+              flexGrow: 1,
+              padding: 20,
+              borderRadius: 10,
               backgroundColor: "#fff",
-              justifyContent: "space-between",
-              alignItems: "center",
-              paddingVertical: 20,
-              paddingHorizontal: 10,
+              marginTop: 20,
+              paddingTop: 0,
             }}
           >
-            <Image source={require("../assets/images/fan.png")} />
-            <Switch
-              trackColor={{ false: "#767577", true: "#81b0ff" }}
-              thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
-              onValueChange={toggleSwitch1}
-              disabled
-              value={isEnabled1}
-              style={{ backgroundColor: "#fff" }}
-            />
+            <View
+              style={{
+                flexDirection: "row",
+                backgroundColor: "#fff",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+              }}
+            >
+              <Image source={require("../assets/images/fan.png")} />
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch1}
+                disabled
+                value={isEnabled1}
+                style={{ backgroundColor: "#fff" }}
+              />
+            </View>
+            <Text
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            >
+              Quạt 1
+            </Text>
           </View>
-          <Text
-            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
-          >
-            Quạt
-          </Text>
         </View>
-      </View>
-      <View style={{ flexDirection: "row", marginTop: 20 }}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
+        <View style={{ flexDirection: "row" }}>
+          <View
+            style={{
+              flexGrow: 1,
+              padding: 20,
+              borderRadius: 10,
+              backgroundColor: "#fff",
+              marginRight: 20,
+              marginTop: 20,
+              paddingTop: 0,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                backgroundColor: "#fff",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+              }}
+            >
+              <Image source={require("../assets/images/led.png")} />
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled2 ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch}
+                disabled
+                value={isEnabled2}
+                style={{ backgroundColor: "#fff" }}
+              />
+            </View>
+            <Text
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            >
+              Bóng đèn 2
+            </Text>
+          </View>
+          <View
+            style={{
+              flexGrow: 1,
+              padding: 20,
+              borderRadius: 10,
+              backgroundColor: "#fff",
+              marginTop: 20,
+              paddingTop: 0,
+            }}
+          >
+            <View
+              style={{
+                flexDirection: "row",
+                backgroundColor: "#fff",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingVertical: 20,
+                paddingHorizontal: 10,
+              }}
+            >
+              <Image source={require("../assets/images/fan.png")} />
+              <Switch
+                trackColor={{ false: "#767577", true: "#81b0ff" }}
+                thumbColor={isEnabled3 ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch1}
+                disabled
+                value={isEnabled3}
+                style={{ backgroundColor: "#fff" }}
+              />
+            </View>
+            <Text
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            >
+              Quạt 2
+            </Text>
+          </View>
+        </View>
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
 
-            borderRadius: 10,
-            marginRight: 20,
-            paddingTop: 6,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-              backgroundColor: "#fff",
-              paddingHorizontal: 10,
-              marginBottom: 10,
+              borderRadius: 10,
+              marginRight: 20,
+              paddingTop: 6,
             }}
           >
-            <Text
+            <View
               style={{
-                fontSize: 14,
-                textAlign: "center",
-                fontWeight: "bold",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+                backgroundColor: "#fff",
+                paddingHorizontal: 10,
+                marginBottom: 10,
               }}
             >
-              Min: 0
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Min: 0
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Max: 50
+              </Text>
+            </View>
+            <ProgressCircle
+              percent={temp * 2}
+              radius={60}
+              borderWidth={8}
+              color="#3399FF"
+              shadowColor="#999"
+              bgColor="#fff"
+            >
+              <Text style={{ fontSize: 18 }}>{temp}</Text>
+            </ProgressCircle>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+              }}
+            >
+              Cảm biến
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
             >
-              Max: 50
-            </Text>
-          </View>
-          <ProgressCircle
-            percent={temp * 2}
-            radius={60}
-            borderWidth={8}
-            color="#3399FF"
-            shadowColor="#999"
-            bgColor="#fff"
-          >
-            <Text style={{ fontSize: 18 }}>{temp}</Text>
-          </ProgressCircle>
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 10,
-            }}
-          >
-            Cảm biến
-          </Text>
-          <Text
-            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
-          >
-            nhiệt độ
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            borderRadius: 10,
-            paddingTop: 6,
-          }}
-        >
-          <View
-            style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
-              backgroundColor: "#fff",
-              paddingHorizontal: 10,
-              marginBottom: 10,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 14,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Min: 0
-            </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Max: 100
+              nhiệt độ
             </Text>
           </View>
-          <ProgressCircle
-            percent={humid}
-            radius={60}
-            borderWidth={8}
-            color="#3399FF"
-            shadowColor="#999"
-            bgColor="#fff"
-          >
-            <Text style={{ fontSize: 18 }}>{humid}</Text>
-          </ProgressCircle>
-          <Text
-            style={{
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 10,
-            }}
-          >
-            Cảm biến
-          </Text>
-          <Text
-            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
-          >
-            độ ẩm
-          </Text>
-        </View>
-      </View>
-      <View style={{ flexDirection: "row", marginTop: 20 }}>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            borderRadius: 10,
-            paddingTop: 6,
-          }}
-        >
           <View
             style={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              width: "100%",
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
               backgroundColor: "#fff",
-              paddingHorizontal: 10,
-              marginBottom: 10,
+              borderRadius: 10,
+              paddingTop: 6,
             }}
           >
-            <Text
+            <View
               style={{
-                fontSize: 14,
-                textAlign: "center",
-                fontWeight: "bold",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+                backgroundColor: "#fff",
+                paddingHorizontal: 10,
+                marginBottom: 10,
               }}
             >
-              Min: 0
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Min: 0
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Max: 100
+              </Text>
+            </View>
+            <ProgressCircle
+              percent={humid}
+              radius={60}
+              borderWidth={8}
+              color="#3399FF"
+              shadowColor="#999"
+              bgColor="#fff"
+            >
+              <Text style={{ fontSize: 18 }}>{humid}</Text>
+            </ProgressCircle>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+              }}
+            >
+              Cảm biến
             </Text>
             <Text
-              style={{
-                fontSize: 14,
-                textAlign: "center",
-                fontWeight: "bold",
-              }}
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
             >
-              Max: 100
+              độ ẩm
             </Text>
           </View>
-          <ProgressCircle
-            percent={lightsensor}
-            radius={50}
-            borderWidth={8}
-            color="#3399FF"
-            shadowColor="#999"
-            bgColor="#fff"
-          >
-            <Text style={{ fontSize: 18 }}>{lightsensor}</Text>
-          </ProgressCircle>
-          <Text
+        </View>
+        <View style={{ flexDirection: "row", marginTop: 20 }}>
+          <View
             style={{
-              fontSize: 18,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 10,
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
+              borderRadius: 10,
+              paddingTop: 6,
             }}
           >
-            Cảm biến
-          </Text>
-          <Text
-            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "100%",
+                backgroundColor: "#fff",
+                paddingHorizontal: 10,
+                marginBottom: 10,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Min: 0
+              </Text>
+              <Text
+                style={{
+                  fontSize: 14,
+                  textAlign: "center",
+                  fontWeight: "bold",
+                }}
+              >
+                Max: 100
+              </Text>
+            </View>
+            <ProgressCircle
+              percent={lightsensor}
+              radius={50}
+              borderWidth={8}
+              color="#3399FF"
+              shadowColor="#999"
+              bgColor="#fff"
+            >
+              <Text style={{ fontSize: 18 }}>{lightsensor}</Text>
+            </ProgressCircle>
+            <Text
+              style={{
+                fontSize: 18,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+              }}
+            >
+              Cảm biến
+            </Text>
+            <Text
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            >
+              ánh sáng
+            </Text>
+          </View>
+          <View
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              alignItems: "center",
+              // backgroundColor: "#fff",
+              padding: 20,
+              borderRadius: 10,
+            }}
           >
-            ánh sáng
-          </Text>
-        </View>
-        <View
-          style={{
-            flex: 1,
-            justifyContent: "center",
-            alignItems: "center",
-            // backgroundColor: "#fff",
-            padding: 20,
-            borderRadius: 10,
-          }}
-        >
-          {/* <ProgressCircle
+            {/* <ProgressCircle
             percent={30}
             radius={50}
             borderWidth={8}
@@ -368,20 +427,21 @@ export default function TabOneScreen({
           >
             <Text style={{ fontSize: 18 }}>{"30%"}</Text>
           </ProgressCircle> */}
-          <Text
-            style={{
-              fontSize: 16,
-              textAlign: "center",
-              fontWeight: "bold",
-              marginTop: 10,
-            }}
-          ></Text>
-          <Text
-            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
-          ></Text>
+            <Text
+              style={{
+                fontSize: 16,
+                textAlign: "center",
+                fontWeight: "bold",
+                marginTop: 10,
+              }}
+            ></Text>
+            <Text
+              style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+            ></Text>
+          </View>
         </View>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 

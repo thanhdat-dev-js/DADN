@@ -1,7 +1,6 @@
 import { StyleSheet, Image, Switch, FlatList } from "react-native";
 import { useState, useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
-import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
 import { RootTabScreenProps } from "../types";
 import { API } from "../api";
