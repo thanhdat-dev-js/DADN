@@ -27,7 +27,7 @@ AIO_FEED_ID = ["heat-sensor", "light-sensor", "humidity-sensor", "fan-1", "light
 
 
 AIO_USERNAME = "Ailasoi"
-AIO_KEY = "aio_WEcd27gk7UJYd7IANkWs4AESAGkR"
+AIO_KEY = "aio_ANEH309KSTP7W6tpVokUHVyXZKuV"
 
 
 def connected(client):

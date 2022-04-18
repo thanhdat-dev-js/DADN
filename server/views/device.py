@@ -3,12 +3,14 @@ from flask import request, jsonify
 from bson import ObjectId
 from models.deviceModel import deviceModel  # call model file
 # from bson.objectid import ObjectId # Allow using ObjectId
-from factory.adafruit import ADA
+# from factory.adafruit import ADA
 
+from flask_jwt_extended import jwt_required
 
 devices = deviceModel()
-ada = ADA()
+ada = 'ADA()'
 class deviceAPI(MethodView):
+    decorators = [jwt_required()]
     def get(self):
         device_id = request.args.get('device_id')
         if device_id == None:

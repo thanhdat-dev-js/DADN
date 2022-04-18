@@ -2,3 +2,5 @@ Flask
 pymongo
 flask_cors  # need when gets cors erros
 dnspython
+pyjwt
+flask-jwt-extended

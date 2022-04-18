@@ -10,18 +10,20 @@ class userModel(object):
         self.collection_name = 'users'  # collection name
 
         self.fields = {
-            "name": "string",
+            "username": "string",
+            "password": "string",
+            "permission": "string",
             "created": "datetime",
             "updated": "datetime",
         }
 
-        self.create_required_fields = ["name"]
+        self.create_required_fields = ["username", "password", "permission"]
 
         # Fields optional for CREATE
         self.create_optional_fields = []
 
         # Fields required for UPDATE
-        self.update_required_fields = ["name"]
+        self.update_required_fields = ["username", "permission"]
 
         # Fields optional for UPDATE
         self.update_optional_fields = []
