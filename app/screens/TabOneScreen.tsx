@@ -17,7 +17,7 @@ export default function TabOneScreen({
     const unsub = setInterval(async () => {
       try {
         await API.get("/devices").then(async (res) => {
-          console.log(res.data);
+          // console.log(res.data);
           await setData(res.data);
           res.data.map((item: any) => {
             if (item.name === "Light") {
