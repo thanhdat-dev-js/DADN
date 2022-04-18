@@ -21,13 +21,14 @@ uri = "mongodb+srv://Ailasoi:taolasoi@cluster0.bh9dm.mongodb.net/TTNT?retryWrite
 connection = MongoClient(uri)
 device_collection = connection["TTNT"]["device"]
 history_collection = connection["TTNT"]["history"]
+notification_collection = connection["TTNT"]["notification"]
 
 
 AIO_FEED_ID = ["heat-sensor", "light-sensor", "humidity-sensor", "fan-1","fan-2","light-1", "light-2"]
 
 
 AIO_USERNAME = "Ailasoi"
-AIO_KEY = "aio_ANEH309KSTP7W6tpVokUHVyXZKuV"
+AIO_KEY = "aio_wUHG65q0srD0twJUvY19jFwvLrkr"
 
 
 def connected(client):
@@ -52,32 +53,46 @@ def message(client, feed_id, payload):
     print(feed_id)
     now = datetime.now()
     if feed_id == "heat-sensor":
-        ###temp_payload = __aio.receive((__aio.feeds('heat-sensor')).key).value
         device_collection.update_many({"name":"temp"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of temp was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "temp" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " temp")
     if feed_id == "light-sensor":
-        ###light_sensor_payload = __aio.receive((__aio.feeds('light-sensor')).key).value
         device_collection.update_many({"name":"light_sensor"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of light_sensor was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "light_sensor" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " light_sensor")
     if feed_id == "humidity-sensor":
-        ###humid_payload = __aio.receive((__aio.feeds('humidity-sensor')).key).value
         device_collection.update_many({"name":"humid"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of humid was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "humid" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " humid")
     if feed_id == "fan-1":
-        ###Fan_payload = __aio.receive((__aio.feeds('fan-1')).key).value
         device_collection.update_many({"name":"Fan_1"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of Fan_1 was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "Fan_1" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Fan_1")
     if feed_id == "light-1":
-        ###Light_payload = __aio.receive((__aio.feeds('light-1')).key).value
         device_collection.update_many({"name":"Light_1"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of Light_1 was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "Light_1" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Light_1")
     if feed_id == "fan-2":
-        ###Fan_payload = __aio.receive((__aio.feeds('fan-1')).key).value
         device_collection.update_many({"name":"Fan_2"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of Fan_2 was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "Fan_2" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Fan_2")
     if feed_id == "light-2":
-        ###Light_payload = __aio.receive((__aio.feeds('light-1')).key).value
         device_collection.update_many({"name":"Light_2"}, {"$set": {"feed" : payload , "time" : now}})
+        noti = "the feed of Light_2 was changed to " + str(payload) + " at " + str(now)
+        data = {"name": "Light_2" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Light_2")
 
 
