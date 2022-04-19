@@ -15,6 +15,7 @@
 - venv: virtual environment của python
 
 # Setup
+> Code ở dưới được chạy trên Powershell của Window 10
 ## Lấy key cho adafruit
 - Vào [key.template.py](key.template.py), cho returnkey adafruit của mình
 - Đổi tên file key.template.py thành key.py
@@ -27,13 +28,13 @@
 ```
 để tạo virtual env trên máy của mình
 
-- Run
+- Run:
 ```
     .\venv\Scripts\activate (Đối với window Powershell)
 ```
 để vào virtual env vừa tạo
 
-- Run
+- Run:
 ```
     pip install -r requirements.txt
 ```
@@ -45,3 +46,9 @@
     python server.py
 ```
 Để chạy server trên máy
+
+## Start adafruit data flow
+- chạy lệnh:
+```
+    python .\adafruit\load.py
+``` 
