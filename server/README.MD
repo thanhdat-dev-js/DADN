@@ -15,6 +15,11 @@
 - venv: virtual environment của python
 
 # Setup
+## Lấy key cho adafruit
+- Vào [key.template.py](key.template.py), cho self.__key bằng key adafruit của mình
+- Đổi tên file key.template.py thành key.py
+
+## Create virtual env
 - vào thư mục server
 - Run:
 ```
@@ -33,6 +38,8 @@
     pip install -r requirements.txt
 ```
 Để cài đặt các module cần thiết
+
+## Start server
 - Cuối cùng chạy lệnh:
 ```
     python server.py
