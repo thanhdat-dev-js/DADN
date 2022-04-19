@@ -1,6 +1,6 @@
 from flask.views import MethodView
 from flask import request, jsonify
-from models.user import userModel  # call model file
+from models.userModel import userModel  # call model file
 # from bson.objectid import ObjectId # Allow using ObjectId
 
 
