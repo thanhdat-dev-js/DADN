@@ -34,6 +34,40 @@
 			"response": []
 		},
 		{
+			"name": "Update feed",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1MDM1NjAxMSwianRpIjoiNDQ3ZWEzZGYtMjU5ZC00NDU0LWJhZDItMjcxMDg0OTYxYWFiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlRIIiwibmJmIjoxNjUwMzU2MDExLCJleHAiOjE2NTAzNTY5MTF9.dWmNe0-GO3tkPSBiF3SQiJOIJGwRGRd0Y8fdICbGc84",
+						"type": "default",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "value",
+							"value": "2",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "{{DADNhost}}devices/623ae518da7f074b55a950f1",
+					"host": [
+						"{{DADNhost}}devices"
+					],
+					"path": [
+						"623ae518da7f074b55a950f1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
 			"name": "Create User",
 			"request": {
 				"method": "POST",

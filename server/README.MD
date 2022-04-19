@@ -7,6 +7,7 @@
 - [db_config](db_config.json) + [config](config.py): cấu hình db
 - [requirements.txt](requirements.txt): các thư viện python cần thiết
 - Postman: [postman_collection](DADN.postman_collection.json)
+    - Nhớ cập nhật lại variable DADNhost phù hợp với id của máy (có dạng `http://000.000.000.000:8000/`)
 ## Thư mục
 - factory: định dạng database và các validator
 - models: chứa các models
