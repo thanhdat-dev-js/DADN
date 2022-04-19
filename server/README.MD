@@ -16,7 +16,7 @@
 
 # Setup
 ## Lấy key cho adafruit
-- Vào [key.template.py](key.template.py), cho self.__key bằng key adafruit của mình
+- Vào [key.template.py](key.template.py), cho returnkey adafruit của mình
 - Đổi tên file key.template.py thành key.py
 
 ## Create virtual env
