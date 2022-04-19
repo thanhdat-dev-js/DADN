@@ -1,5 +1,5 @@
-# Intro
-Đây là Rest API để app có thể lấy dữ liệu từ server của mongoDB
+# Phần BackEnd
+Hiện thực Rest API để app có thể lấy dữ liệu từ server của mongoDB cũng như gọi API update io.adafruit khi cần thiết
 
 # Cấu trúc Directory
 ## File ngoài
