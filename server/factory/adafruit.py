@@ -5,16 +5,30 @@ class ADA:
         self.__ADAFRUIT_IO_USERNAME = "Ailasoi"
         self.__ADAFRUIT_IO_KEY = getKey()
         self.__aio = Client(self.__ADAFRUIT_IO_USERNAME, self.__ADAFRUIT_IO_KEY)
-        self.__temperature_feed = self.__aio.feeds('heat-sensor')
-        self.__humidity_feed = self.__aio.feeds('humidity-sensor')
-        self.__fan_1_feed = self.__aio.feeds('fan-1')
-        self.__light_1_feed = self.__aio.feeds('light-1')
-        self.__fan_2_feed = self.__aio.feeds('fan-2')
-        self.__light_2_feed = self.__aio.feeds('light-2')
+        
+        
+        self.temp_payload = self.__aio.feeds('heat-sensor')
+        self.light_sensor_payload = self.__aio.feeds('light-sensor')
+        self.humid_payload = self.__aio.feeds('humidity-sensor')
+        self.Fan_1_payload = self.__aio.feeds('fan-1')
+        self.Light_1_payload = self.__aio.feeds('light-1')
+        self.Fan_2_payload = self.__aio.feeds('fan-2')
+        self.Light_2_payload = self.__aio.feeds('light-2')
+    
     def update(self, name, value):
-        if name == "fan":
-            key = self.__fan_1_feed.key
-        elif name == "light":
-            key = self.__light_1_feed.key
+        if name == "Light_1":
+            key = self.Light_1_payload.key
+        elif name == "Light_2":
+            key = self.Light_2_payload.key
+        elif name == "Fan_1":
+            key = self.Fan_1_payload.key
+        elif name == "Fan_2":
+            key = self.Fan_2_payload.key
+        elif name == "temp":
+            key = self.temp_payload.key
+        elif name == "humid":
+            key = self.humid_payload.key
+        elif name == "light_sensor":
+            key = self.light_sensor_payload.key
         self.__aio.send_data(key, value)
-        return
+        return 

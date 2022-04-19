@@ -8,7 +8,7 @@ from factory.adafruit import ADA
 from flask_jwt_extended import jwt_required
 
 devices = deviceModel()
-# ada = ADA()
+ada = ADA()
 class deviceAPI(MethodView):
     # decorators = [jwt_required()]
     def get(self):
@@ -29,6 +29,6 @@ class deviceAPI(MethodView):
         value = request.form['value']
         print(device['name'], "with new value= " +str(value))
         # newvalue = "1" if device['feed'] == '0' else "0"
-        # ada.update('fan', newvalue)
+        ada.update(device['name'], value)
         # if device['feed'] == 1:
-        return device, 201
+        return "update successfully",201

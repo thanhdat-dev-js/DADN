@@ -54,43 +54,47 @@ def message(client, feed_id, payload):
     now = datetime.now()
     if feed_id == "heat-sensor":
         device_collection.update_many({"name":"temp"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of temp was changed to " + str(payload) + " at " + str(now)
-        data = {"name": "temp" ,"time": now ,"notification": noti}
-        notification_collection.insert_one(data)
+        
         print("Updated " + payload + " to" + " temp")
     if feed_id == "light-sensor":
         device_collection.update_many({"name":"light_sensor"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of light_sensor was changed to " + str(payload) + " at " + str(now)
-        data = {"name": "light_sensor" ,"time": now ,"notification": noti}
-        notification_collection.insert_one(data)
+        
         print("Updated " + payload + " to" + " light_sensor")
     if feed_id == "humidity-sensor":
         device_collection.update_many({"name":"humid"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of humid was changed to " + str(payload) + " at " + str(now)
-        data = {"name": "humid" ,"time": now ,"notification": noti}
-        notification_collection.insert_one(data)
+        
         print("Updated " + payload + " to" + " humid")
     if feed_id == "fan-1":
         device_collection.update_many({"name":"Fan_1"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of Fan_1 was changed to " + str(payload) + " at " + str(now)
+        noti = "Quạt 1 được chuyển sang trạng thái: " + str(payload) + " vào lúc " + str(now)
         data = {"name": "Fan_1" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Fan_1")
     if feed_id == "light-1":
         device_collection.update_many({"name":"Light_1"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of Light_1 was changed to " + str(payload) + " at " + str(now)
+        k=""
+        if(payload == 0):
+            k="Tắt"
+        else:
+            k="Mở"
+        noti = "Đèn 1 đã được " + k + " vào lúc " + str(now)
         data = {"name": "Light_1" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Light_1")
     if feed_id == "fan-2":
         device_collection.update_many({"name":"Fan_2"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of Fan_2 was changed to " + str(payload) + " at " + str(now)
+        noti = "Quạt 2 được chuyển sang trạng thái: " + str(payload) + " vào lúc " + str(now)
         data = {"name": "Fan_2" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Fan_2")
     if feed_id == "light-2":
         device_collection.update_many({"name":"Light_2"}, {"$set": {"feed" : payload , "time" : now}})
-        noti = "the feed of Light_2 was changed to " + str(payload) + " at " + str(now)
+        k=""
+        if(payload == 0):
+            k="Tắt"
+        else:
+            k="Mở"
+        noti = "Đèn 2 đã được " + k + " vào lúc " + str(now)
         data = {"name": "Light_2" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Light_2")
