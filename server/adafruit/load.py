@@ -5,7 +5,7 @@ import concurrent.futures
 #import pymongo
 from sqlite3 import connect
 from pymongo import MongoClient
-
+from key import AdaKey
 # import adafruit dht library.
 
 #import datetime
@@ -28,7 +28,7 @@ AIO_FEED_ID = ["heat-sensor", "light-sensor", "humidity-sensor", "fan-1","fan-2"
 
 
 AIO_USERNAME = "Ailasoi"
-AIO_KEY = "aio_wUHG65q0srD0twJUvY19jFwvLrkr"
+AIO_KEY = AdaKey.getKey()
 
 
 def connected(client):

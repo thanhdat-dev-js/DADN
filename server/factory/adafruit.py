@@ -1,8 +1,9 @@
 from Adafruit_IO import Client
+from adafruit.key import AdaKey
 class ADA:
     def __init__(self) -> None:
         self.__ADAFRUIT_IO_USERNAME = "Ailasoi"
-        self.__ADAFRUIT_IO_KEY = "aio_vvzT55rXhVacv8QCy2HCp7dlVtAs"
+        self.__ADAFRUIT_IO_KEY = AdaKey.getKey()
         self.__aio = Client(self.__ADAFRUIT_IO_USERNAME, self.__ADAFRUIT_IO_KEY)
         self.__temperature_feed = self.__aio.feeds('heat-sensor')
         self.__humidity_feed = self.__aio.feeds('humidity-sensor')

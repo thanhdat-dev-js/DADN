@@ -10,9 +10,11 @@ import serial.tools.list_ports
 
 from Adafruit_IO import MQTTClient
 
+from server.adafruit.load import AIO_KEY
+
 AIO_FEED_ID = "Fan_1"
 AIO_USERNAME = "Ailasoi"
-AIO_KEY = "aio_WEcd27gk7UJYd7IANkWs4AESAGkR"
+AIO_KEY = ""
 def connected(client):
     print("Ket noi thanh cong...")
     client.subscribe(AIO_FEED_ID)
