@@ -1,0 +1,225 @@
+{
+	"info": {
+		"_postman_id": "a45e3e60-fc32-4387-9048-8f11674e040b",
+		"name": "DADN",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get all devices",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1MDM1NjAxMSwianRpIjoiNDQ3ZWEzZGYtMjU5ZC00NDU0LWJhZDItMjcxMDg0OTYxYWFiIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlRIIiwibmJmIjoxNjUwMzU2MDExLCJleHAiOjE2NTAzNTY5MTF9.dWmNe0-GO3tkPSBiF3SQiJOIJGwRGRd0Y8fdICbGc84",
+						"type": "default"
+					}
+				],
+				"url": {
+					"raw": "http://192.168.111.253:8000/devices",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"111",
+						"253"
+					],
+					"port": "8000",
+					"path": [
+						"devices"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "Hanh",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.111.253:8000/users/create",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"111",
+						"253"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add to home",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "TH",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "default",
+							"disabled": true
+						}
+					]
+				},
+				"url": {
+					"raw": "http://172.20.12.74:8000/users/add-to-home",
+					"protocol": "http",
+					"host": [
+						"172",
+						"20",
+						"12",
+						"74"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"add-to-home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete from home",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "TH",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://172.20.12.74:8000/users/delete-from-home",
+					"protocol": "http",
+					"host": [
+						"172",
+						"20",
+						"12",
+						"74"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"delete-from-home"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "username",
+							"value": "TH",
+							"type": "default"
+						},
+						{
+							"key": "password",
+							"value": "123",
+							"type": "default"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://192.168.111.253:8000/users/login",
+					"protocol": "http",
+					"host": [
+						"192",
+						"168",
+						"111",
+						"253"
+					],
+					"port": "8000",
+					"path": [
+						"users",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "DADNhost",
+			"value": "http://192.168.111.253:8000/",
+			"type": "default"
+		}
+	]
+}

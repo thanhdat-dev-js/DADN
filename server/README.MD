@@ -3,9 +3,10 @@
 
 # Cấu trúc Directory
 ## File ngoài
-- server.py: file chạy chính
-- db_config.json + config.py: cấu hình db
-- requirement.txt: các thư viện python cần thiết
+- [server.py](server.py): file chạy chính
+- [db_config](db_config.json) + [config](config.py): cấu hình db
+- [requirements.txt](requirements.txt): các thư viện python cần thiết
+- Postman: [postman_collection](DADN.postman_collection.json)
 ## Thư mục
 - factory: định dạng database và các validator
 - models: chứa các models
@@ -22,7 +23,7 @@
 
 - Run
 ```
-    .\venv\Scripts\activate (Đối với window)
+    .\venv\Scripts\activate (Đối với window Powershell)
 ```
 để vào virtual env vừa tạo
 
@@ -30,7 +31,7 @@
 ```
     pip install -r requirements.txt
 ```
-
+Để cài đặt các module cần thiết
 - Cuối cùng chạy lệnh:
 ```
     python server.py
