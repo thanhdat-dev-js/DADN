@@ -13,31 +13,31 @@ export default function TabOneScreen({
   const [data, setData] = useState<any>(undefined);
   const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
   const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-  useEffect(() => {
-    const unsub = setInterval(async () => {
-      try {
-        await API.get("/devices").then(async (res) => {
-          // console.log(res.data);
-          await setData(res.data);
-          res.data.map((item: any) => {
-            if (item.name === "Light") {
-              setIsEnabled(item.feed == "1" ? true : false);
-            } else if (item.name === "Fan") {
-              setIsEnabled1(item.feed == "1" ? true : false);
-            }
-          });
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    }, 1000);
-    return () => {
-      clearInterval(unsub);
-    };
-  }, []);
+  // useEffect(() => {
+  //   const unsub = setInterval(async () => {
+  //     try {
+  //       await API.get("/devices").then(async (res) => {
+  //         // console.log(res.data);
+  //         await setData(res.data);
+  //         res.data.map((item: any) => {
+  //           if (item.name === "Light") {
+  //             setIsEnabled(item.feed == "1" ? true : false);
+  //           } else if (item.name === "Fan") {
+  //             setIsEnabled1(item.feed == "1" ? true : false);
+  //           }
+  //         });
+  //       });
+  //     } catch (error) {
+  //       console.log(error);
+  //     }
+  //   }, 1000);
+  //   return () => {
+  //     clearInterval(unsub);
+  //   };
+  // }, []);
   return (
     <View style={styles.container}>
-      <View style={styles.heading}>
+      {/* <View style={styles.heading}>
         <FontAwesome name="microphone" size={24} color="black" />
         <Text
           style={{
@@ -193,7 +193,7 @@ export default function TabOneScreen({
             </Text>
           )}
         />
-      </View>
+      </View> */}
     </View>
   );
 }

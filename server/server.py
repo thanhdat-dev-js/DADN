@@ -23,7 +23,7 @@ history_view = historyAPI.as_view('history_api')
 notification_view = notificationAPI.as_view('notification_api')
 
 # app.add_url_rule('/users', view_func=user_view, methods=['GET',])
-app.add_url_rule('/users/<string:action>', view_func=user_view, methods=['POST',])
+app.add_url_rule('/users/<string:action>', view_func=user_view, methods=['POST','GET'])
 
 app.add_url_rule('/devices', view_func=device_view, methods=['GET',])
 app.add_url_rule('/devices/<string:device_id>', view_func=device_view, methods=['PUT',])
