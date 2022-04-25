@@ -14,12 +14,15 @@ class ADA:
         self.Light_1_payload = self.__aio.feeds('light-1')
         self.Fan_2_payload = self.__aio.feeds('fan-2')
         self.Light_2_payload = self.__aio.feeds('light-2')
+        self.Door_payload = self.__aio.feeds('door')
     
     def update(self, name, value):
         if name == "Light_1":
             key = self.Light_1_payload.key
         elif name == "Light_2":
             key = self.Light_2_payload.key
+        elif name == "Door":
+            key = self.Door_payload.key
         elif name == "Fan_1":
             key = self.Fan_1_payload.key
         elif name == "Fan_2":

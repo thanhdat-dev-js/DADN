@@ -13,6 +13,7 @@ class historyModel(object):
             "time": "datetime",
             "Light_1": "string",
             "Light_2": "string",
+            "Door": "string",
             "Fan_1": "string",
             "Fan_2": "string",
             "temp": "string",

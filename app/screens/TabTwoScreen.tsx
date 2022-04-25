@@ -12,16 +12,34 @@ export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isEnabled1, setIsEnabled1] = useState(0);
+  const [isEnabled1, setIsEnabled1] = useState(false);
   const [isEnabled2, setIsEnable2] = useState(false);
-  const [isEnabled3, setIsEnable3] = useState(0);
+  const [isEnabled3, setIsEnable3] = useState(false);
   const [temp, setTemp] = useState(0);
   const [humid, setHumid] = useState(0);
   const [lightsensor, setLightsensor] = useState(0);
-  const sliderEl = useRef<any>(null);
-  // const toggleSwitch3 = () => setIsEnable3((previousState) => !previousState);
-  const toggleSwitch2 = () => setIsEnable2((previousState) => !previousState);
-  // const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
+
+  const toggleSwitch1 = () => {
+    API.put("/devices/623ae518da7f074b55a950f1", {
+      value: !isEnabled1 ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  const toggleSwitch3 = () => {
+    API.put("/devices/625d6a159f002e62d1f240af", {
+      value: !isEnabled3 ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  const toggleSwitch2 = () => {
+    API.put("/devices/625d69f79f002e62d1f240ae", {
+      value: !isEnabled2 ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   const toggleSwitch = () => {
     API.put("/devices/623ae316da7f074b55a950ee", {
       value: !isEnabled ? 1 : 0,
@@ -38,12 +56,11 @@ export default function TabOneScreen({
             if (item.name === "Light_1") {
               setIsEnabled(item.feed == "1" ? true : false);
             } else if (item.name === "Fan_1") {
-              // sliderEl.current.value(item.feed);
-              setIsEnabled1(item.feed);
+              setIsEnabled1(item.feed == "1" ? true : false);
             } else if (item.name === "Light_2") {
               setIsEnable2(item.feed == "1" ? true : false);
             } else if (item.name === "Fan_2") {
-              setIsEnable3(item.feed);
+              setIsEnable3(item.feed == "1" ? true : false);
             } else if (item.name === "temp") {
               setTemp(item.feed);
             } else if (item.name === "humid") {
@@ -127,7 +144,6 @@ export default function TabOneScreen({
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={isEnabled2 ? "#E5E5E5" : "#f4f3f4"}
                 onValueChange={toggleSwitch2}
-                disabled
                 value={isEnabled2}
                 style={{ backgroundColor: "#fff" }}
               />
@@ -155,26 +171,19 @@ export default function TabOneScreen({
               style={{
                 flexDirection: "row",
                 backgroundColor: "#fff",
-                justifyContent: "center",
+                justifyContent: "space-between",
                 alignItems: "center",
                 paddingVertical: 20,
                 paddingHorizontal: 10,
               }}
             >
               <Image source={require("../assets/images/fan.png")} />
-              {/* <Switch
+              <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
                 onValueChange={toggleSwitch1}
-                disabled
                 value={isEnabled1}
                 style={{ backgroundColor: "#fff" }}
-              /> */}
-            </View>
-            <View style={{ backgroundColor: "#fff" }}>
-              <WrapSlider
-                isEnabled1={isEnabled1}
-                setIsEnabled1={setIsEnabled1}
               />
             </View>
             <Text
@@ -197,31 +206,19 @@ export default function TabOneScreen({
               style={{
                 flexDirection: "row",
                 backgroundColor: "#fff",
-                justifyContent: "center",
+                justifyContent: "space-between",
                 alignItems: "center",
                 paddingVertical: 20,
                 paddingHorizontal: 10,
               }}
             >
               <Image source={require("../assets/images/fan.png")} />
-              {/* <Switch
+              <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
-                onValueChange={toggleSwitch1}
-                disabled
-                value={isEnabled1}
-                style={{ backgroundColor: "#fff" }}
-              /> */}
-            </View>
-            <View style={{ backgroundColor: "#fff" }}>
-              <Slider
-                style={{ width: "100%", height: 80 }}
-                step={1}
+                thumbColor={isEnabled3 ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch3}
                 value={isEnabled3}
-                minimumValue={0}
-                maximumValue={2}
-                minimumTrackTintColor="#81b0ff"
-                maximumTrackTintColor="#767577"
+                style={{ backgroundColor: "#fff" }}
               />
             </View>
             <Text
