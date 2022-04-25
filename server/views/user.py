@@ -19,12 +19,13 @@ class UserAPI(MethodView):
        
         if action == "login":
             data = request.get_json(force=True)
-            
+            print(data)
             username = data["username"]
             password = data["password"]
-            if user.find({'username': username, 'password': password}):
+            curuser = user.find({'username': username, 'password': password})
+            if curuser:
                 access_token = create_access_token(identity=username)
-                return jsonify(access_token=access_token), 201
+                return jsonify(access_token=access_token,permission=curuser[0]['permission']), 201
             else:
                 return "User not found", 404
             # return "Create", 201
