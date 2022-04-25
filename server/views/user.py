@@ -16,10 +16,8 @@ class UserAPI(MethodView):
         return user.find_by_id(str(user_id)), 200
 
     def post(self, action):
-       
+        data = request.get_json(force=True)
         if action == "login":
-            data = request.get_json(force=True)
-            
             username = data["username"]
             password = data["password"]
             if user.find({'username': username, 'password': password}):

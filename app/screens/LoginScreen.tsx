@@ -8,6 +8,7 @@ import {
   TextInput,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import { API } from "../api";
 
@@ -18,39 +19,61 @@ export default function App({ setUser }: any) {
     console.log(username);
   });
   const handleLogin = () => {
-    // setUser({ username: "TVP", password: "123" });
-    API.post(
-      "/users/login",
-      JSON.stringify({
-        username: "TVP",
-        password: "123",
-      }),
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
-      .then((res) => {
-        setUser(res.data);
-        console.log(res.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    if (!username || !password) {
+      Alert.alert("Thông báo", "Vui lòng nhập đầy đủ thông tin");
+    } else
+      API.post(
+        "/users/login",
+        JSON.stringify({
+          username,
+          password,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      )
+        .then((res) => {
+          setUser(res.data);
+        })
+        .catch((err) => {
+          Alert.alert(
+            "Login failed",
+            "Please check your username and password"
+          );
+          console.log(err);
+        });
   };
   const handleRegister = () => {
     setUser("register");
   };
   return (
     <View style={styles.container}>
-      {/* <Image style={styles.image} source={require("./assets/log2.png")} /> */}
+      <View style={{ alignItems: "flex-end", width: "100%" }}>
+        <Text
+          style={{
+            textAlign: "left",
+            width: "100%",
+            fontSize: 26,
+            paddingLeft: 20,
+            fontWeight: "bold",
+            paddingTop: 30,
+          }}
+        >
+          Đăng nhập
+        </Text>
+        <Image
+          style={styles.image}
+          source={require("../assets/images/login.png")}
+        />
+      </View>
 
       <StatusBar style="auto" />
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="username"
+          placeholder="Tên đăng nhập"
           placeholderTextColor="#003f5c"
           onChangeText={(username) => setUsername(username)}
         />
@@ -59,18 +82,18 @@ export default function App({ setUser }: any) {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Password."
+          placeholder="Mật khẩu"
           placeholderTextColor="#003f5c"
           secureTextEntry={true}
           onChangeText={(password) => setPassword(password)}
         />
       </View>
 
-      <View style={{ flexDirection: "row" }}>
+      <View style={{ flexGrow: 1, width: "100%" }}>
         <TouchableOpacity style={styles.loginBtn} onPress={handleLogin}>
-          <Text>LOGIN</Text>
+          <Text>ĐĂNG NHẬP</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.loginBtn} onPress={handleRegister}>
+        <TouchableOpacity style={styles.loginBtn1} onPress={handleRegister}>
           <Text>ĐĂNG KÝ</Text>
         </TouchableOpacity>
       </View>
@@ -111,15 +134,22 @@ const styles = StyleSheet.create({
     height: 30,
     marginBottom: 30,
   },
-
   loginBtn: {
-    width: "40%",
-    marginHorizontal: 10,
-    borderRadius: 25,
+    marginHorizontal: 20,
+    borderRadius: 10,
     height: 50,
     alignItems: "center",
     justifyContent: "center",
-    marginTop: 40,
+    marginTop: 20,
     backgroundColor: "#04C35C",
+  },
+  loginBtn1: {
+    marginHorizontal: 20,
+    borderRadius: 10,
+    height: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    marginTop: 20,
+    backgroundColor: "#C4C4C4",
   },
 });
