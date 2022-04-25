@@ -1,5 +1,5 @@
 import { StyleSheet, Image, Switch, FlatList, ScrollView } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import EditScreenInfo from "../components/EditScreenInfo";
 import { Text, View } from "../components/Themed";
@@ -7,7 +7,7 @@ import { RootTabScreenProps } from "../types";
 import CircleSlider from "react-native-circle-slider";
 import ProgressCircle from "react-native-progress-circle";
 import { API } from "../api";
-
+import Slider from "@react-native-community/slider";
 export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
@@ -18,10 +18,35 @@ export default function TabOneScreen({
   const [temp, setTemp] = useState(0);
   const [humid, setHumid] = useState(0);
   const [lightsensor, setLightsensor] = useState(0);
-  const toggleSwitch3 = () => setIsEnabled1((previousState) => !previousState);
-  const toggleSwitch2 = () => setIsEnabled1((previousState) => !previousState);
-  const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
+
+  const toggleSwitch1 = () => {
+    API.put("/devices/623ae518da7f074b55a950f1", {
+      value: !isEnabled1 ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  const toggleSwitch3 = () => {
+    API.put("/devices/625d6a159f002e62d1f240af", {
+      value: !isEnabled3 ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  const toggleSwitch2 = () => {
+    API.put("/devices/625d69f79f002e62d1f240ae", {
+      value: !isEnabled2 ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  const toggleSwitch = () => {
+    API.put("/devices/623ae316da7f074b55a950ee", {
+      value: !isEnabled ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
   useEffect(() => {
     const unsub = setInterval(async () => {
       try {
@@ -84,7 +109,6 @@ export default function TabOneScreen({
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={isEnabled ? "#E5E5E5" : "#f4f3f4"}
                 onValueChange={toggleSwitch}
-                disabled
                 value={isEnabled}
                 style={{ backgroundColor: "#fff" }}
               />
@@ -115,20 +139,19 @@ export default function TabOneScreen({
                 paddingHorizontal: 10,
               }}
             >
-              <Image source={require("../assets/images/fan.png")} />
+              <Image source={require("../assets/images/led.png")} />
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
-                onValueChange={toggleSwitch1}
-                disabled
-                value={isEnabled1}
+                thumbColor={isEnabled2 ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch2}
+                value={isEnabled2}
                 style={{ backgroundColor: "#fff" }}
               />
             </View>
             <Text
               style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
             >
-              Quạt 1
+              Bóng đèn 2
             </Text>
           </View>
         </View>
@@ -139,9 +162,9 @@ export default function TabOneScreen({
               padding: 20,
               borderRadius: 10,
               backgroundColor: "#fff",
-              marginRight: 20,
               marginTop: 20,
               paddingTop: 0,
+              marginRight: 20,
             }}
           >
             <View
@@ -154,20 +177,19 @@ export default function TabOneScreen({
                 paddingHorizontal: 10,
               }}
             >
-              <Image source={require("../assets/images/led.png")} />
+              <Image source={require("../assets/images/fan.png")} />
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
-                thumbColor={isEnabled2 ? "#E5E5E5" : "#f4f3f4"}
-                onValueChange={toggleSwitch}
-                disabled
-                value={isEnabled2}
+                thumbColor={isEnabled1 ? "#E5E5E5" : "#f4f3f4"}
+                onValueChange={toggleSwitch1}
+                value={isEnabled1}
                 style={{ backgroundColor: "#fff" }}
               />
             </View>
             <Text
               style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
             >
-              Bóng đèn 2
+              Quạt 1
             </Text>
           </View>
           <View
@@ -194,8 +216,7 @@ export default function TabOneScreen({
               <Switch
                 trackColor={{ false: "#767577", true: "#81b0ff" }}
                 thumbColor={isEnabled3 ? "#E5E5E5" : "#f4f3f4"}
-                onValueChange={toggleSwitch1}
-                disabled
+                onValueChange={toggleSwitch3}
                 value={isEnabled3}
                 style={{ backgroundColor: "#fff" }}
               />
@@ -468,3 +489,22 @@ const styles = StyleSheet.create({
     width: "80%",
   },
 });
+
+const WrapSlider = ({ isEnabled1, setIsEnabled1 }: any) => {
+  console.log("text", isEnabled1);
+  return (
+    <Slider
+      style={{ width: "100%", height: 80 }}
+      step={1}
+      value={isEnabled1}
+      onValueChange={(value) => {
+        setIsEnabled1(value);
+      }}
+      minimumValue={0}
+      maximumValue={2}
+      minimumTrackTintColor="#81b0ff"
+      maximumTrackTintColor="#767577"
+      thumbTintColor="#E5E5E5"
+    />
+  );
+};

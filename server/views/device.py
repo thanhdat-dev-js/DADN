@@ -26,7 +26,7 @@ class deviceAPI(MethodView):
 
     def put(self, device_id):
         device = devices.find_by_id(ObjectId(device_id))
-        value = request.form['value']
+        value = request.get_json(force=True)['value']
         print(device['name'], "with new value= " +str(value))
         # newvalue = "1" if device['feed'] == '0' else "0"
         ada.update(device['name'], value)
