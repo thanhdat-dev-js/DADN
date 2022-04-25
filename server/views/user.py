@@ -32,6 +32,8 @@ class UserAPI(MethodView):
         elif action == "create":
             username = data["username"]
             password = data["password"]
+            if user.find({'username': username}):
+                return "Username already exist", 404
             print("create user")
             return user.create({'username': username, 'password': password, 'permission': "0"}), 201
         elif action == 'add-to-home':
