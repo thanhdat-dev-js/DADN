@@ -2,6 +2,7 @@ from flask.views import MethodView
 from flask import request, jsonify
 from models.userModel import userModel  # call model file
 # from bson.objectid import ObjectId # Allow using ObjectId
+import json
 
 
 from flask_jwt_extended import create_access_token
@@ -46,6 +47,20 @@ class UserAPI(MethodView):
             newUser = user.find({'username': username})
             # print(newUser)
             return user.update(newUser[0]['_id'], {'username': username, 'permission': "0"}), 201
+        elif action == 'capture-face':
+            username = data["username"]
+                # Data to be written
+            dictionary ={
+                "mode" : "capture",
+                "username": username
+            }
+            
+            # Serializing json 
+            json_object = json.dumps(dictionary, indent = 4)
+            
+            # Writing to sample.json
+            with open("ai_config.json", "w") as outfile:
+                outfile.write(json_object)
         else:
             return "Invalid Action", 404
         # name = request.form['name']

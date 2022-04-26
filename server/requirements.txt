@@ -4,3 +4,6 @@ flask_cors  # need when gets cors erros
 dnspython
 pyjwt
 flask-jwt-extended
+opencv-contrib-python
+mediapipe
+Pillow

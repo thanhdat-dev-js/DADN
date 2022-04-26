@@ -3,7 +3,7 @@ import cv2
 import time
 
 from src.faceDetectorModule import FaceDetector
-from src.connectDB import Database
+from src.imagesDBModule import Database
 
 cap = cv2.VideoCapture(0)
 cap.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
@@ -29,7 +29,7 @@ while img_count < 30:
     # }
     shape = {'height' : frame.shape[0], 'width' : frame.shape[1]}
     # # print(shape)
-    db.insert(frame.tobytes(), dicBbox,shape, 1)
+    # db.insert(frame.tobytes(), dicBbox,shape, 1)
     img_count += 1
     cTime = time.time()
     fps = 1 / (cTime - pTime)
