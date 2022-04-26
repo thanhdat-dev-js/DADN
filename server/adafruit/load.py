@@ -71,8 +71,10 @@ def message(client, feed_id, payload):
         k=""
         if(int(payload) ==0):
             k="Tắt"
+            device_collection.update_many({"name":"Fan_1"}, {"$inc": {"CountOff" : 1}})
         else:
             k="Mở"
+            device_collection.update_many({"name":"Fan_1"}, {"$inc": {"CountOn" : 1}})
         noti = "Quạt 1 được " + k + " vào lúc " + ti
         data = {"name": "Fan_1" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
@@ -82,8 +84,10 @@ def message(client, feed_id, payload):
         k=""
         if(int(payload) ==0):
             k="Đóng"
+            device_collection.update_many({"name":"Door"}, {"$inc": {"CountOff" : 1}})
         else:
             k="Mở"
+            device_collection.update_many({"name":"Door"}, {"$inc": {"CountOn" : 1}})
         noti = "Cửa đã được " + k + " vào lúc " + ti
         data = {"name": "Door" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
@@ -93,8 +97,10 @@ def message(client, feed_id, payload):
         k=""
         if(int(payload) ==0):
             k="Tắt"
+            device_collection.update_many({"name":"Light_1"}, {"$inc": {"CountOff" : 1}})
         else:
             k="Mở"
+            device_collection.update_many({"name":"Light_1"}, {"$inc": {"CountOn" : 1}})
         noti = "Đèn 1 đã được " + k + " vào lúc " + ti
         data = {"name": "Light_1" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
@@ -104,8 +110,10 @@ def message(client, feed_id, payload):
         k=""
         if(int(payload) ==0):
             k="Tắt"
+            device_collection.update_many({"name":"Fan_2"}, {"$inc": {"CountOff" : 1}})
         else:
             k="Mở"
+            device_collection.update_many({"name":"Fan_2"}, {"$inc": {"CountOn" : 1}})
         noti = "Quạt 2 được " + k + " vào lúc " + ti
         data = {"name": "Fan_2" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)
@@ -115,8 +123,10 @@ def message(client, feed_id, payload):
         k=""
         if(int(payload) ==0):
             k="Tắt"
+            device_collection.update_many({"name":"Light_2"}, {"$inc": {"CountOff" : 1}})
         else:
             k="Mở"
+            device_collection.update_many({"name":"Light_2"}, {"$inc": {"CountOn" : 1}})
         noti = "Đèn 2 đã được " + k + " vào lúc " + ti
         data = {"name": "Light_2" ,"time": now ,"notification": noti}
         notification_collection.insert_one(data)

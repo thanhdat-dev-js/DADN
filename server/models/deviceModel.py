@@ -14,6 +14,8 @@ class deviceModel(object):
             "feed": "string",
             "time": "datetime",
             "updated": "datetime",
+            "CountOn": "int",
+            "CountOff": "int",
         }
 
         self.create_required_fields = ["name"]
