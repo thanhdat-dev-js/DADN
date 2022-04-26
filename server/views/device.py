@@ -16,6 +16,7 @@ class deviceAPI(MethodView):
         if device_id == None:
             # return "device"
             return jsonify(devices.find({})), 200
+          
         # return "device" + str((device_id))
         # return "find device" + str(device_id)
 

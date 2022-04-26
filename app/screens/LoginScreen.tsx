@@ -34,8 +34,8 @@ export default function App({ setUser }: any) {
           },
         }
       )
-        .then((res) => {
-          setUser(res.data);
+        .then(() => {
+          setUser(username);
         })
         .catch((err) => {
           Alert.alert(

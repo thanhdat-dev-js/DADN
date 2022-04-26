@@ -24,47 +24,45 @@ export default function TabThreeScreen({
   const [fan2, setFan2] = useState(0);
   const [light1, setLight1] = useState(0);
   const [light2, setLight2] = useState(0);
-  const [lightSensor, setLightSensor] = useState([]);
-  const [temp, setTemp] = useState([]);
-  const [humid, setHumid] = useState([]);
-  const data = {
+
+  const [data, setData] = useState({
     labels: ["Quạt 1", "Quạt 2", "Đèn 1", "Đèn 2"],
     datasets: [
       {
         data: [fan1, fan2, light1, light2],
       },
     ],
-  };
-  const dataLightSensor = {
-    labels: [],
-    datasets: [
-      {
-        data: lightSensor,
-      },
-    ],
-  };
+  });
+
   useEffect(() => {
-    API.get("/history").then(({ data }) => {
-      var fan1 = 0;
-      var fan2 = 0;
-      var light1 = 0;
-      var light2 = 0;
-      var lightSensor = [];
-      data.forEach((item: any) => {
-        if (item["Fan_1"] == "1") fan1++;
-        if (item["Fan_2"] == "1") fan2++;
-        if (item["Light_1"] == "1") light1++;
-        if (item["Light_2"] == "1") light2++;
-        lightSensor.push(item["light_sensor"]);
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      API.get("/devices").then(async (res) => {
+        res.data.map((item: any) => {
+          if (item.name === "Light_1") {
+            setLight1(item.CountOn);
+          } else if (item.name === "Fan_1") {
+            setFan1(item.CountOn);
+          } else if (item.name === "Light_2") {
+            setLight2(item.CountOn);
+          } else if (item.name === "Fan_2") {
+            setFan2(item.CountOn);
+          }
+        });
       });
-      setFan1(fan1);
-      setFan2(fan2);
-      setLight1(light1);
-      setLight2(light2);
-      setLightSensor(lightSensor);
     });
-  }, []);
-  console.log(lightSensor);
+    return unsubscribe;
+  }, [navigation]);
+
+  useEffect(() => {
+    setData({
+      labels: ["Đèn 1", "Đèn 2", "Quạt 1", "Quạt 2"],
+      datasets: [
+        {
+          data: [light1, light2, fan1, fan2],
+        },
+      ],
+    });
+  }, [light1, light2, fan1, fan2]);
   return (
     <ScrollView>
       <View style={{ marginTop: 40 }}>
@@ -81,14 +79,6 @@ export default function TabThreeScreen({
           chartConfig={chartConfig}
           verticalLabelRotation={0}
         />
-        {/* <LineChart
-          data={dataLightSensor}
-          width={Dimensions.get("window").width}
-          height={256}
-          verticalLabelRotation={30}
-          chartConfig={chartConfig}
-          bezier
-        /> */}
       </View>
     </ScrollView>
   );

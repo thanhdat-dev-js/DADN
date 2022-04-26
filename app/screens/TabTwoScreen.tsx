@@ -18,7 +18,9 @@ export default function TabOneScreen({
   const [temp, setTemp] = useState(0);
   const [humid, setHumid] = useState(0);
   const [lightsensor, setLightsensor] = useState(0);
-
+  useEffect(() => {
+    console.log("222222");
+  }, []);
   const toggleSwitch1 = () => {
     API.put("/devices/623ae518da7f074b55a950f1", {
       value: !isEnabled1 ? 1 : 0,

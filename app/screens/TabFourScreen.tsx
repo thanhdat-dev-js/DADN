@@ -4,19 +4,22 @@ import { API } from "../api";
 
 import { Text, View } from "../components/Themed";
 
-export default function TabFourScreen() {
+export default function TabFourScreen({ navigation }) {
   const [data, setData] = useState([]);
   const fetchData = () => {
     API.get("/notification").then(({ data }) => {
-      const temp = data.sort((item1: any, item2: any) =>
-        item1.time > item2.tiem ? 1 : -1
-      );
+      const temp = data
+        .sort((item1: any, item2: any) => (item1.time > item2.tiem ? 1 : -1))
+        .filter((item, idx) => (idx < 20 ? true : false));
       setData(temp);
     });
   };
   useEffect(() => {
-    fetchData();
-  }, []);
+    const unsubscribe = navigation.addListener("tabPress", (e) => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   return (
     <ScrollView style={{}}>

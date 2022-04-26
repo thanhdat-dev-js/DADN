@@ -1,4 +1,11 @@
-import { StyleSheet, Image, Switch, FlatList, Alert } from "react-native";
+import {
+  StyleSheet,
+  Image,
+  Switch,
+  FlatList,
+  Alert,
+  TouchableOpacity,
+} from "react-native";
 import { useState, useEffect, useContext } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 import EditScreenInfo from "../components/EditScreenInfo";
@@ -10,12 +17,49 @@ export default function TabOneScreen({
   navigation,
 }: RootTabScreenProps<"TabOne">) {
   const [isEnabled, setIsEnabled] = useState(false);
-  const [isEnabled1, setIsEnabled1] = useState(false);
-  const [data, setData] = useState<any>(undefined);
-  const toggleSwitch1 = () => setIsEnabled1((previousState) => !previousState);
-  const toggleSwitch = () => setIsEnabled((previousState) => !previousState);
-  const { setUser }: any = useContext(AppContext);
-
+  const toggleSwitch = () => {
+    API.put("/devices/62669fd582f752873681f4ce", {
+      value: !isEnabled ? 1 : 0,
+    })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
+  };
+  const { user, setUser }: any = useContext(AppContext);
+  useEffect(() => {
+    const unsub = setInterval(async () => {
+      try {
+        await API.get("/devices").then(async (res) => {
+          res.data.map((item: any) => {
+            if (item.name == "Door") {
+              setIsEnabled(item.feed == "1" ? true : false);
+            }
+          });
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(unsub);
+    };
+  }, []);
+  const handleAddFace = () => {
+    Alert.alert("Thông báo", "Vui lòng đứng trước camera để lấy dữ liệu", [
+      {
+        text: "Hủy",
+        onPress: () => console.log("Cancel Pressed"),
+        style: "cancel",
+      },
+      {
+        text: "OK",
+        onPress: () => {
+          API.post("/users/capture-face", {
+            username: user,
+          });
+        },
+      },
+    ]);
+  };
   return (
     <View style={styles.container}>
       <View style={styles.heading}>
@@ -60,39 +104,59 @@ export default function TabOneScreen({
       >
         <View
           style={{
-            flexDirection: "row",
+            flexGrow: 1,
+            padding: 20,
+            borderRadius: 10,
             backgroundColor: "#fff",
-            paddingLeft: 20,
+            marginTop: 20,
+            paddingTop: 0,
           }}
         >
-          <Image source={require("../assets/images/user.png")} />
           <Text
+            style={{ fontSize: 18, textAlign: "center", fontWeight: "bold" }}
+          >
+            Trạng thái cửa
+          </Text>
+          <View
             style={{
-              fontSize: 18,
-              textAlign: "left",
-              fontWeight: "bold",
-              paddingLeft: 20,
+              flexDirection: "row",
+              backgroundColor: "#fff",
+              justifyContent: "space-around",
+              alignItems: "center",
+              paddingVertical: 20,
+              paddingHorizontal: 10,
             }}
           >
-            Danh sách người dùng
-          </Text>
-        </View>
-        <FlatList
-          data={[{ key: "Sói cha" }, { key: "Sói mẹ" }]}
-          renderItem={({ item }) => (
-            <Text
+            <Image
+              source={require("../assets/images/door.png")}
               style={{
-                fontSize: 18,
-                textAlign: "left",
-                fontWeight: "bold",
-                paddingLeft: 70,
-                paddingTop: 10,
+                width: 80,
+                height: 80,
               }}
-            >
-              {item.key}
-            </Text>
-          )}
-        />
+            />
+            <Switch
+              trackColor={{ false: "#767577", true: "#81b0ff" }}
+              thumbColor={isEnabled ? "#E5E5E5" : "#f4f3f4"}
+              onValueChange={toggleSwitch}
+              value={isEnabled}
+              style={{ backgroundColor: "#fff" }}
+            />
+          </View>
+          <View
+            style={{
+              alignItems: "center",
+              paddingVertical: 14,
+              borderRadius: 10,
+              width: "100%",
+            }}
+          >
+            <TouchableOpacity style={{ width: "100%" }}>
+              <Text style={{ textAlign: "center" }} onPress={handleAddFace}>
+                Thêm khuôn mặt
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </View>
   );

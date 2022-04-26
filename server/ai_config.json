@@ -1,3 +1,7 @@
 {
-    "mode": "dat"
+    "mode": "capture",
+    "username": {
+        "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJmcmVzaCI6ZmFsc2UsImlhdCI6MTY1MDk2NDc0NCwianRpIjoiOTBkNWM4YzUtNmNjYi00NzM4LTkzOTAtZTkzMmU2ZGRmMWZjIiwidHlwZSI6ImFjY2VzcyIsInN1YiI6IlRWUCIsIm5iZiI6MTY1MDk2NDc0NCwiZXhwIjoxNjUwOTY1NjQ0fQ.p6iBvI_7Yy4-PIZy4i7DluSCLud4NkE-QQiOxgxZ8L0",
+        "permission": "0"
+    }
 }
