@@ -1,6 +1,5 @@
 
 from pymongo import MongoClient
-from bson import ObjectId
 import cv2
 import os
 import numpy as np

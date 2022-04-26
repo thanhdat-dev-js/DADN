@@ -1,34 +1,31 @@
 
 
 import cv2
-import time
-import numpy as np
-from faceDetectorModule import FaceDetector
-from imagesDBModule import Database
+from AI.faceDetectorModule import FaceDetector
+from AI.imagesDBModule import Database
 
-def frameCapture(frames, db, label):
-    for frame in frames:
-        detector = FaceDetector(0.75)
-        frame, bboxs = detector.findFaces(frame)
-        if len(bboxs) != 1:
-            return False
-        # print(bboxs[0])
-        bbox = bboxs[0]
-        dicBbox = {
-            'xmin': bbox[0][0],
-            'ymin': bbox[0][1],
-            'width': bbox[0][2],
-            'height': bbox[0][3],
-        }
-        # bbox = {
-        # }
-        shape = {'height' : frame.shape[0], 'width' : frame.shape[1]}
-        # # print(shape)
-        db.insert(frame.tobytes(), dicBbox,shape, label)
+db = Database()
+def frameCapture(frame, label):
+    detector = FaceDetector(0.75)
+    frame, bboxs = detector.findFaces(frame)
+    if len(bboxs) != 1:
+        return False
+    # print(bboxs[0])
+    bbox = bboxs[0]
+    dicBbox = {
+        'xmin': bbox[0][0],
+        'ymin': bbox[0][1],
+        'width': bbox[0][2],
+        'height': bbox[0][3],
+    }
+    # bbox = {
+    # }
+    shape = {'height' : frame.shape[0], 'width' : frame.shape[1]}
+    # # print(shape)
+    db.insert(frame.tobytes(), dicBbox,shape, label)
+
 
 def main():
-
-
     cap = cv2.VideoCapture(0)
     cap.set(cv2.CAP_PROP_FRAME_WIDTH, 960)
     cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 540)
