@@ -3,7 +3,7 @@ import cv2
 import pickle
 
 # Face recognition and identication
-face_cascade = cv2.CascadeClassifier('./data/haarcascade_frontalface_alt2.xml')
+face_cascade = cv2.CascadeClassifier('./src.old/data/haarcascade_frontalface_alt2.xml')
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("trainner.yml")
 labels = {}
@@ -26,13 +26,13 @@ while(True):
         roi_color = frame[y:y+h, x:x+w]
 
         # recognize? deel learned model predict keras, tensorflow, pytorch...
-        id_, conf = recognizer.predict(roi_gray)
-        if conf>=45:
-            font = cv2.FONT_HERSHEY_COMPLEX
-            name = labels[id_]
-            color = (255,255,255)
-            stroke = 2
-            cv2.putText(frame,name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
+        # id_, conf = recognizer.predict(roi_gray)
+        # if conf>=45:
+        #     font = cv2.FONT_HERSHEY_COMPLEX
+        #     name = labels[id_]
+        #     color = (255,255,255)
+        #     stroke = 2
+        #     cv2.putText(frame,name, (x,y), font, 1, color, stroke, cv2.LINE_AA)
         # img_item = "my-image.png"
         # cv2.imwrite(img_item, roi_gray)
 
