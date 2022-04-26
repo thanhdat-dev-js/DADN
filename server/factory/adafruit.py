@@ -35,3 +35,5 @@ class ADA:
             key = self.light_sensor_payload.key
         self.__aio.send_data(key, value)
         return 
+    def getDoor(self):
+        return self.__aio.receive(self.D)

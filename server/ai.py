@@ -9,9 +9,10 @@ from AI.faceDetectorModule import FaceDetector
 from AI.imagesCaptureModule import frameCapture
 from AI.trainModelModule import trainModel
 from models.userModel import userModel
-
+from factory.adafruit import ADA
 class AI():
     def __init__(self) -> None:
+        self.ada = ADA()
         self.cap = cv2.VideoCapture(0)
         self.config = readConfig()
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
@@ -19,8 +20,11 @@ class AI():
         self.users = userModel().find({})
         self.img_count = 0
         self.label = 0
+        self.conf_count = 0
+        self.opening = False
     def updateVariable(self):
         self.config = readConfig()
+        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
         self.recognizer.read("trainner.yml")
         self.users = userModel().find({})
 
@@ -75,10 +79,15 @@ class AI():
                         else:
                             id_, conf = self.recognizer.predict(roi)
                             if id_ >= len(self.users):
-                                pass
+                                print("Out of range")
+                                continue
                             print(id_)
                             font = cv2.FONT_HERSHEY_COMPLEX
-                            name = self.users[id_]['username'] if conf <= 65 else "?"
+                            name = ""
+                            if conf <= 30:
+                                name = self.users[id_]['username']
+                            else:
+                                name = "?"                                
                             color = (255,255,255)
                             stroke = 2
                             cv2.putText(frame,name + " "+ str(int(conf)), (x,y), font, 1, color, stroke, cv2.LINE_AA)
@@ -88,13 +97,13 @@ class AI():
             elif self.config['mode'] == "capture":
                 self.label = self.findLabel(self.config['username'])
                 if (self.img_count == 30):
-                    self.updateMode("recognize")
+                    self.updateMode("train")
                     self.img_count = 0
                 else:
                     cv2.putText(
                         frame,
                         "Capturing " +self.config['username'] + " images", 
-                        (30,20), 
+                        (50,50), 
                         cv2.FONT_HERSHEY_PLAIN,
                         1,(0,255,0),2)
                     cv2.imshow("frame", frame)
