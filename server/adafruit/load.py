@@ -57,7 +57,14 @@ def message(client, feed_id, payload):
     ti= now.strftime("%H:%M:%S, %d/%m/%Y")
     if feed_id == "heat-sensor":
         device_collection.update_many({"name":"temp"}, {"$set": {"feed" : payload , "time" : now}})
-        
+        k=""
+        if(int(payload) <10):
+            k="BÁO ĐỘNG!! Nhiệt độ phòng lúc này là: " + payload + " độ C; Nhiệt độ phòng đang quá THẤP"
+        elif(int(payload) >60):
+            k="BÁO ĐỘNG!! Nhiệt độ phòng lúc này là: " + payload + " độ C; Nhiệt độ phòng đang quá CAO"
+        noti = k + ", vào lúc " + ti
+        data = {"name": "temp" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " temp")
     if feed_id == "light-sensor":
         device_collection.update_many({"name":"light_sensor"}, {"$set": {"feed" : payload , "time" : now}})
@@ -65,7 +72,14 @@ def message(client, feed_id, payload):
         print("Updated " + payload + " to" + " light_sensor")
     if feed_id == "humidity-sensor":
         device_collection.update_many({"name":"humid"}, {"$set": {"feed" : payload , "time" : now}})
-        
+        k=""
+        if(int(payload) <20):
+            k="BÁO ĐỘNG!! Độ ẩm phòng lúc này là: " + payload + "g/m^3; Độ ẩm đang quá THẤP"
+        elif(int(payload) >85):
+            k="BÁO ĐỘNG!! Độ ẩm phòng lúc này là: " + payload + "g/m^3; Độ ẩm đang quá CAO"
+        noti = k + ", vào lúc " + ti
+        data = {"name": "humid" ,"time": now ,"notification": noti}
+        notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " humid")
     if feed_id == "fan-1":
         device_collection.update_many({"name":"Fan_1"}, {"$set": {"feed" : payload , "time" : now}})
