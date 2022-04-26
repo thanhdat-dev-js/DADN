@@ -1,13 +1,11 @@
 import cv2
-import mediapipe as mp
-import time
-from PIL import Image
 import numpy as np
 import json
-from AI.readConfig import readConfig
+from AI.readConfigModule import readConfig
 from AI.faceDetectorModule import FaceDetector
 from AI.imagesCaptureModule import frameCapture
 from AI.trainModelModule import trainModel
+
 from models.userModel import userModel
 from factory.adafruit import ADA
 class AI():
@@ -16,7 +14,7 @@ class AI():
         self.cap = cv2.VideoCapture(0)
         self.config = readConfig()
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-        self.recognizer.read("trainner.yml")
+        self.recognizer.read("./AI/trainner.yml")
         self.users = userModel().find({})
         self.img_count = 0
         self.conf = conf
@@ -32,7 +30,7 @@ class AI():
     def updateVariable(self):
         self.config = readConfig()
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
-        self.recognizer.read("trainner.yml")
+        self.recognizer.read("./AI/trainner.yml")
         self.users = userModel().find({})
 
     def updateDoorValue(self):

@@ -1,11 +1,10 @@
 
 from Adafruit_IO import Client
-# from adafruit.key import getKey
+from adafruit.key import getKey
 class ADA:
     def __init__(self) -> None:
         self.__ADAFRUIT_IO_USERNAME = "Ailasoi"
-        # self.__ADAFRUIT_IO_KEY = getKey()
-        self.__ADAFRUIT_IO_KEY = "aio_xFYd84lrj1kEQn71XGpYcsHWDBPd"
+        self.__ADAFRUIT_IO_KEY = getKey()
         self.__aio = Client(self.__ADAFRUIT_IO_USERNAME, self.__ADAFRUIT_IO_KEY)
         
         

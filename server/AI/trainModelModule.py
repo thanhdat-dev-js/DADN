@@ -24,4 +24,4 @@ def trainModel():
 
 
 	recognizer.train(x_train, np.array(y_labels))
-	recognizer.save("./trainner.yml")
+	recognizer.save("./AI/trainner.yml")
