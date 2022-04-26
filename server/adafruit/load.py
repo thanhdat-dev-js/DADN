@@ -7,6 +7,7 @@ import concurrent.futures
 from sqlite3 import connect
 from pymongo import MongoClient
 from key import getKey
+import json
 # import adafruit dht library.
 
 #import datetime
@@ -80,6 +81,17 @@ def message(client, feed_id, payload):
         notification_collection.insert_one(data)
         print("Updated " + payload + " to" + " Fan_1")
     if feed_id == "door":
+        # Data to be written
+        dictionary ={
+            "mode" : "update"
+        }
+        
+        # Serializing json 
+        json_object = json.dumps(dictionary, indent = 4)
+        
+        # Writing to sample.json
+        with open("ai_config.json", "w") as outfile:
+            outfile.write(json_object)
         device_collection.update_many({"name":"Door"}, {"$set": {"feed" : payload , "time" : now}})
         k=""
         if(int(payload) ==0):

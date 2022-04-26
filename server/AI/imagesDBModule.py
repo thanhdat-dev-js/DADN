@@ -28,6 +28,8 @@ class Database(object):
     def getAll(self, criteria = {}):
         return self.db[self.collection_name].find(criteria)
 
+    def deleteAll(self, criteria = {}):
+        return self.db[self.collection_name].delete_many(criteria)
 
 def main():
     a = 1

@@ -1,9 +1,11 @@
+
 from Adafruit_IO import Client
-from adafruit.key import getKey
+# from adafruit.key import getKey
 class ADA:
     def __init__(self) -> None:
         self.__ADAFRUIT_IO_USERNAME = "Ailasoi"
-        self.__ADAFRUIT_IO_KEY = getKey()
+        # self.__ADAFRUIT_IO_KEY = getKey()
+        self.__ADAFRUIT_IO_KEY = "aio_xFYd84lrj1kEQn71XGpYcsHWDBPd"
         self.__aio = Client(self.__ADAFRUIT_IO_USERNAME, self.__ADAFRUIT_IO_KEY)
         
         
@@ -36,4 +38,7 @@ class ADA:
         self.__aio.send_data(key, value)
         return 
     def getDoor(self):
-        return self.__aio.receive(self.D)
+        return self.__aio.receive(self.Door_payload.key).value
+    def openDoor(self):
+        self.update("Door",1)
+

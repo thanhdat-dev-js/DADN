@@ -2,12 +2,14 @@ from flask.views import MethodView
 from flask import request, jsonify
 from models.userModel import userModel  # call model file
 # from bson.objectid import ObjectId # Allow using ObjectId
+from AI.imagesDBModule import Database
 import json
 
 
 from flask_jwt_extended import create_access_token
 
 user = userModel()
+images = Database()
 class UserAPI(MethodView):
     def get(self):
         
@@ -49,6 +51,12 @@ class UserAPI(MethodView):
             return user.update(newUser[0]['_id'], {'username': username, 'permission': "0"}), 201
         elif action == 'capture-face':
             username = data["username"]
+            users = user.find({})
+            print ("capture-face")
+            for i in range (len(users)):
+                if users[i]['username'] == username:
+                    images.deleteAll({"label" : i}) 
+                    print("delete label " + str(i))
                 # Data to be written
             dictionary ={
                 "mode" : "capture",
@@ -61,6 +69,7 @@ class UserAPI(MethodView):
             # Writing to sample.json
             with open("ai_config.json", "w") as outfile:
                 outfile.write(json_object)
+            return "Capturing Images", 201 
         else:
             return "Invalid Action", 404
         # name = request.form['name']

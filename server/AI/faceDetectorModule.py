@@ -41,8 +41,8 @@ class FaceDetector():
 
 def main():
     cap = cv2.VideoCapture(0)
-    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1000)
-    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1000)
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 540)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 960)
     pTime = 0
     detector = FaceDetector(0.75)
     while True:
