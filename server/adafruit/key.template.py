@@ -1,2 +1,2 @@
 def getKey():
-    return 'aio_xFYd84lrj1kEQn71XGpYcsHWDBPd'
+    return '<your IO.ADAFRUIT key here>'

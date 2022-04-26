@@ -11,7 +11,7 @@ Hiện thực Rest API để app có thể lấy dữ liệu từ server của m
 - Postman: [postman_collection](DADN.postman_collection.json)
     - Nhớ cập nhật lại variable DADNhost phù hợp với id của máy (có dạng `http://000.000.000.000:8000/`)
 ## Thư mục
-- AI: các modules cần thiết để hiện thực AI
+- AI: các modules cần thiết để hiện thực AI, model đã train nằm ở đây
 - factory: định dạng database và các validator
 - models: chứa các models
 - views: chứa các views
